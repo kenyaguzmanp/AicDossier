@@ -1,13 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  FlatList,
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,14 +11,14 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { Provider, useSelector } from 'react-redux';
 
 import {
   Colors,
-  DebugInstructions,
   Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { enhancedFetchArtworks } from './src/api/services';
+import { store } from './src/store/store';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -55,15 +50,61 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-function App(): JSX.Element {
+const renderItem = ({ item }): JSX.Element => {
+  return (
+    <View style={{ marginVertical: 5, backgroundColor: 'gray' }}>
+      <Text>{item.title}</Text>
+      <Text>{item.artist_title}</Text>
+      <Image
+        style={{ width: 66, height: 58 }}
+        source={{
+          uri: item.thumbnail.lqip,
+        }}
+      />
+      <Image
+        style={{ width: 66, height: 58 }}
+        source={{
+          uri: `https://www.artic.edu/iiif/2/${item.image_id}/full/200,/0/default.jpg` // TODO: REVISAR URL
+        }}
+      />
+    </View>
+  )
+}
+
+const Artworks = ({ data }): JSX.Element => {
+  if (data.length === 0) {
+    return (
+      <View style={{ flex: 1, backgroundColor: 'yellow' }}>
+        <Text>NO DATA</Text>
+      </View>
+    )
+  }
+  return (
+    <View style={{ flex: 1 }}>
+      <FlatList data={data} renderItem={renderItem} keyExtractor={(item, index) => index.toString()}/>
+    </View>
+  )
+}
+
+const AppContent = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [isLoading, setIsLoading] = useState(true);
+
+  const artworks = useSelector((state) => state?.artworks?.artworks);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+    useEffect(() => {
+      enhancedFetchArtworks({
+        setLoadingState: setIsLoading,
+      });
+  }, []);
+
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <>
+      <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
@@ -71,28 +112,29 @@ function App(): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="is loading:">
+            <Text style={styles.highlight}>{`${isLoading}`}</Text> 
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <View>
+            <Artworks data={artworks} />
+          </View>
+          
         </View>
       </ScrollView>
-    </SafeAreaView>
+  </SafeAreaView>
+    </>
+  )
+}
+
+function App(): JSX.Element {
+  return (
+    <Provider store={store}>
+      <AppContent />
+    </Provider>
   );
 }
 
