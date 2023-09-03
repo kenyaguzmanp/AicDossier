@@ -3,7 +3,7 @@ export type ThumbnailDetail = {
     width: number;
     height: number;
     alt_text: string;
-    low_quality_image: string;
+    lqip: string;
 }
 
 export type Artist = {
@@ -22,6 +22,7 @@ export type Artwork =  {
     title: string;
     image_id: string;
     thumbnail:ThumbnailDetail;
+    artist_title: string;
     artist: Artist;
     has_not_been_viewed_much?: boolean;
     gallery_id?: string;
