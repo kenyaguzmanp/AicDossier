@@ -2,10 +2,35 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { ScreenNames } from '../../screens/ScreenNames';
+import FireIcon from '../FireIcon/FireIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { addArtworkToFavorites, removeArtworkToFavorites } from '../../store/slices/artworksSlice';
+import { getIsFavoriteArtwork } from '../../store/selectors/artworksSelectors';
+import { Artwork } from '../../interfaces';
 
 
-const ArtworkThumbnail = ({ artwork }): JSX.Element => {
+const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
   const navigation = useNavigation();
+  const isFavorite = useSelector(getIsFavoriteArtwork(artwork.id));
+
+  const dispatch = useDispatch();
+
+  const handleOnPressFavorite = () => {
+    ;
+    if (isFavorite) {
+      dispatch(removeArtworkToFavorites(artwork))
+    } else {
+      dispatch(addArtworkToFavorites(artwork))
+    }
+  }
+
+  const renderFavoriteIcon = () => {
+    return (
+      <TouchableOpacity onPress={handleOnPressFavorite} style={{ backgroundColor: 'yellow' }}>
+        <FireIcon isSelected={isFavorite} />
+      </TouchableOpacity>
+    )
+  }
 
   const onPressArtwork = () => {
     navigation.navigate(ScreenNames.ArtworkDetail);
@@ -13,6 +38,7 @@ const ArtworkThumbnail = ({ artwork }): JSX.Element => {
 
   return (
     <View>
+      {renderFavoriteIcon()}
       <TouchableOpacity onPress={onPressArtwork} style={{ marginVertical: 5, backgroundColor: 'gray' }}>
         <View style={{ flex: 1 }}>
           <Text>{artwork.title}</Text>
