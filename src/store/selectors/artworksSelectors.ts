@@ -2,6 +2,8 @@ import { createSelector } from "reselect";
 
 export const getArtworks = (state) => state?.artworks?.artworks;
 
+export const getSelectedArtwork = (state) => state?.artworks?.selectedArtwork;
+
 export const getFavoritesArtworks = (state) => state?.artworks?.favorites;
 
 export const getIsFavoriteArtwork = (artworkId) =>

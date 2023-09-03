@@ -24,11 +24,7 @@ const artworksSlice = createSlice({
       state.artworks = [...data];
     },
     selectedArtwork(state, action) {
-      const matchingArtwork = state.artworks.find(artwork => artwork.id === action.payload)
-
-      if (matchingArtwork) {
-        state.selectedArtwork = [...matchingArtwork];
-      }
+      state.selectedArtwork = {...action.payload};
     },
     addArtworkToFavorites(state, action) {
       state.favorites.push(action.payload);
