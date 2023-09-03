@@ -43,18 +43,22 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
         <View style={{ flex: 1 }}>
           <Text>{artwork.title}</Text>
           <Text>{artwork.artist_title}</Text>
-          <Image
-            style={{ width: 66, height: 58 }}
-            source={{
-              uri: artwork.thumbnail.lqip,
-            }}
-          />
-          <Image
-            style={{ width: 66, height: 58 }}
-            source={{
-              uri: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/200,/0/default.jpg` // TODO: REVISAR URL
-            }}
-          />
+          {artwork?.thumbnail && (
+            <>
+              <Image
+                style={{ width: 66, height: 58 }}
+                source={{
+                  uri: artwork.thumbnail.lqip,
+                }}
+              />
+              <Image
+                style={{ width: 66, height: 58 }}
+                source={{
+                  uri: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/200,/0/default.jpg` // TODO: REVISAR URL
+                }}
+              />
+            </>
+          )}
         </View>
       </TouchableOpacity>
     </View>
