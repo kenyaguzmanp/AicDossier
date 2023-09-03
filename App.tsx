@@ -14,7 +14,7 @@ import {
 import { Provider, useSelector } from 'react-redux';
 
 import { store } from './src/store/store';
-import Navigator from './src/navigator';
+import Navigator from './src/navigation/navigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 function App(): JSX.Element {
