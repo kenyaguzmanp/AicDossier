@@ -21,7 +21,10 @@ const artworksSlice = createSlice({
 
     const { data } = action.payload;
 
-      state.artworks = [...data];
+      state.artworks = [...state.artworks, ...data];
+    },
+    cleanArtworks(state) {
+      state.artworks = [];
     },
     selectedArtwork(state, action) {
       state.selectedArtwork = {...action.payload};
@@ -34,11 +37,13 @@ const artworksSlice = createSlice({
       const filteredFavorites = currentFavorites.filter(favorite => favorite.id !== action.payload.id);
       state.favorites = [...filteredFavorites];
     },
-
+    setInitialState(state) {
+      state = { ...initialState };
+    }
   }
 })
 
 
-export const { setArtworks, selectedArtwork, addArtworkToFavorites, removeArtworkToFavorites } = artworksSlice.actions
+export const { setArtworks, selectedArtwork, addArtworkToFavorites, removeArtworkToFavorites, cleanArtworks, setInitialState } = artworksSlice.actions
 
 export default artworksSlice.reducer
