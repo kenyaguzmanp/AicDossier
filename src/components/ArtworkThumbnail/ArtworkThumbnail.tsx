@@ -4,9 +4,10 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { ScreenNames } from '../../screens/ScreenNames';
 import FireIcon from '../FireIcon/FireIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import { addArtworkToFavorites, removeArtworkToFavorites, selectedArtwork } from '../../store/slices/artworksSlice';
+import { addArtworkToFavorites, removeArtworkToFavorites } from '../../store/slices/artworksSlice';
 import { getIsFavoriteArtwork } from '../../store/selectors/artworksSelectors';
 import { Artwork } from '../../interfaces';
+import { enhancedFetchArtworkDetail } from '../../api/services';
 
 
 const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
@@ -16,7 +17,6 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
   const dispatch = useDispatch();
 
   const handleOnPressFavorite = () => {
-    ;
     if (isFavorite) {
       dispatch(removeArtworkToFavorites(artwork))
     } else {
@@ -33,7 +33,11 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
   }
 
   const onPressArtwork = () => {
-    dispatch(selectedArtwork(artwork));
+    enhancedFetchArtworkDetail({
+      serviceParams: {
+        artworkId: artwork.id
+      },
+    });
     navigation.navigate(ScreenNames.ArtworkDetail);
   }
 

@@ -18,13 +18,14 @@ const ArtworksList = ({ data }): JSX.Element => {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
+  // TODO: Check to handle it better
   useEffect(() => {
     if (data?.length === 0) {
       enhancedFetchArtworks({
         serviceParams: {
           page: 1
         }
-      }); // TODO: REVISAR QUE NO SE LLAME TODO EL TIEMPO SINO UNA VEZ
+      });
     }
   }, []);
 
