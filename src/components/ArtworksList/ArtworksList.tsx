@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import ArtworkThumbnail from '../ArtworkThumbnail/ArtworkThumbnail';
 import { enhancedFetchArtworks } from '../../api/services';
+import { noop } from 'lodash';
 
 const renderItem = ({ item }) => {
   return (
@@ -13,7 +14,7 @@ const renderItem = ({ item }) => {
   )
 }
 
-const ArtworksList = ({ data }): JSX.Element => {
+const ArtworksList = ({ data, shouldHandleOnEnd = true }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -78,7 +79,7 @@ const ArtworksList = ({ data }): JSX.Element => {
       <FlatList 
         data={data}
         renderItem={renderItem}
-        onEndReached={onEndReached}
+        onEndReached={shouldHandleOnEnd ? onEndReached : noop}
         onEndReachedThreshold={0.1}
         ListFooterComponent={ListFooter}
         initialNumToRender={10}

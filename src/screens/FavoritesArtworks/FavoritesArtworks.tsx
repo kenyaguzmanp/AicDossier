@@ -9,10 +9,11 @@ import ArtworksList from "../../components/ArtworksList/ArtworksList";
 const FavoritesArtworks = () => {
   const navigation = useNavigation();
   const favoritesArtworks = useSelector(getFavoritesArtworks);
+
     return (
       <View style={{ flex: 1, padding: 20 }}>
         <Text onPress={() => navigation.navigate(ScreenNames.ArtworkDetail)}>FavoritesArtworks Screen PAGE</Text>
-        <ArtworksList data={favoritesArtworks} />
+        <ArtworksList data={favoritesArtworks} shouldHandleOnEnd={false} />
       </View>
     );
 }
