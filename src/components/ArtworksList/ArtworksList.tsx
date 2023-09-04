@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
-  Text,
   View,
 } from 'react-native';
 import ArtworkThumbnail from '../ArtworkThumbnail/ArtworkThumbnail';
 import { enhancedFetchArtworks } from '../../api/services';
 import { noop } from 'lodash';
+import Spinner from '../../Spinner/Spinner';
+import RetryDetail from '../RetryDetail/RetryDetail';
 
 const renderItem = ({ item }) => {
   return (
@@ -18,35 +19,42 @@ const ArtworksList = ({ data, shouldHandleOnEnd = true }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // TODO: Check to handle it better
-  useEffect(() => {
-    if (data?.length === 0) {
-      enhancedFetchArtworks({
-        serviceParams: {
-          page: 1
-        }
-      });
-    }
-  }, []);
+  const onRetry = () => {
+    enhancedFetchArtworks({
+      serviceParams: {
+        page: 1,
+        fakeService: false
+      },
+      setLoadingState: setIsLoading,
+    });
+  }
 
+  if (isLoading) {
+    return (
+      <View style={{ justifyContent: "center", alignSelf: "center", paddingVertical: 50 }}>
+        <Spinner size="large" />
+      </View>
+    );
+  }
 
   if (data.length === 0) {
     return (
-      <View style={{ flex: 1, backgroundColor: 'yellow' }}>
-        <Text>NO DATA</Text>
-      </View>
+      <>
+        <RetryDetail onRetry={onRetry}/>
+      </>
     )
   }
 
   const ListFooter = () => {
-    if (!isLoadingMore) { // isLoading
+    if (!isLoadingMore) {
       return null;
     }
   
     return (
-      <View style={{ width: 200, height: 200, backgroundColor: "blue" }}>
-        <Text>Loading....</Text>
+      <View style={{ justifyContent: "center", alignSelf: "center", paddingVertical: 50 }}>
+        <Spinner size="large" />
       </View>
     );
   };
@@ -54,7 +62,6 @@ const ArtworksList = ({ data, shouldHandleOnEnd = true }): JSX.Element => {
   const onEndReached = () => {
     enhancedFetchArtworks({
       onPreRequest: () => {
-        // console.log("🥊 🚀 ~ file: ArtworksList.tsx:34 ~ onEndReached ~ onPreRequest:")
         setCurrentPage(currentPage + 1);
       },
       setLoadingState: setIsLoadingMore,
@@ -65,11 +72,11 @@ const ArtworksList = ({ data, shouldHandleOnEnd = true }): JSX.Element => {
   }
 
   const onRefresh = () => {
-    // console.log("🚀 ~ file: ArtworksList.tsx:56 ~ onRefresh ~ onRefresh:")
     enhancedFetchArtworks({
       setLoadingState: setIsRefreshing,
       serviceParams: {
-        page: 1
+        page: 1,
+        fakeService: false
       }
     });
   }

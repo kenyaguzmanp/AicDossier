@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
 import ArtworksList from "../../components/ArtworksList/ArtworksList";
 import { getArtworks } from "../../store/selectors/artworksSelectors";

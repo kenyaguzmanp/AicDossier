@@ -12,10 +12,11 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
   const onPressArtwork = () => {
     enhancedFetchArtworkDetail({
       serviceParams: {
-        artworkId: artwork.id
+        artworkId: artwork.id,
+        fakeService: false,
       },
     });
-    navigation.navigate(ScreenNames.ArtworkDetail);
+    navigation.navigate(ScreenNames.ArtworkDetail, { artworkId: artwork.id });
   }
 
   return (

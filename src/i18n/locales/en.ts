@@ -18,6 +18,7 @@ export default {
     HOME_LOCATION_TEXT_1: "Michigan Avenue Entrance",
     HOME_LOCATION_TEXT_2: "111 South Michigan Avenue",
     HOME_LOCATION_TEXT_3: "Modern Wing Entrance",
-    HOME_LOCATION_TEXT_4: "159 East Monroe Street"
+    HOME_LOCATION_TEXT_4: "159 East Monroe Street",
+    RETRY_TEXT: "Ups! try again"
 
 }
