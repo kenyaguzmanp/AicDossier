@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Image, Text, View } from "react-native";
-import ArtworkThumbnail from "../../components/ArtworkThumbnail/ArtworkThumbnail";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedArtwork } from "../../store/selectors/artworksSelectors";
 import { selectedArtwork } from "../../store/slices/artworksSlice";
+import { getFullImageUrl } from "../../utils/artworkDetails";
 
 const ArtworkDetail = () => {
   const currentArtwork = useSelector(getSelectedArtwork);
@@ -24,15 +24,15 @@ const ArtworkDetail = () => {
         {currentArtwork?.thumbnail && (
           <>
             <Image
-              style={{ width: 66, height: 58 }}
+              style={{ flex: 1}}
               source={{
                 uri: currentArtwork.thumbnail.lqip,
               }}
             />
             <Image
-              style={{ width: 66, height: 58 }}
+              style={{ flex: 1 }}
               source={{
-                uri: `https://www.artic.edu/iiif/2/${currentArtwork.image_id}/full/200,/0/default.jpg` // TODO: REVISAR URL
+                uri: getFullImageUrl(currentArtwork.image_id)
               }}
             />
           </>

@@ -8,6 +8,7 @@ import { addArtworkToFavorites, removeArtworkToFavorites } from '../../store/sli
 import { getIsFavoriteArtwork } from '../../store/selectors/artworksSelectors';
 import { Artwork } from '../../interfaces';
 import { enhancedFetchArtworkDetail } from '../../api/services';
+import { getThumbnailImageUrl } from '../../utils/artworkDetails';
 
 
 const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
@@ -59,7 +60,7 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
               <Image
                 style={{ width: 66, height: 58 }}
                 source={{
-                  uri: `https://www.artic.edu/iiif/2/${artwork.image_id}/full/200,/0/default.jpg` // TODO: REVISAR URL
+                  uri: getThumbnailImageUrl(artwork.image_id)
                 }}
               />
             </>
