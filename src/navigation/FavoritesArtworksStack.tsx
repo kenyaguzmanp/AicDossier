@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ScreenNames } from "../screens/ScreenNames";
 import ArtworkDetail from "../screens/ArtworkDetail/ArtworkDetail";
 import FavoritesArtworks from "../screens/FavoritesArtworks/FavoritesArtworks";
+import i18n from "../i18n/locales";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,11 +22,12 @@ const FavoritesArtworksStack = () => {
           <Stack.Screen
             name={ScreenNames.FavoritesArtworks}
             component={FavoritesArtworks}
+            options={{ headerTitle: i18n.t("FAVORITES") }}
           />
           <Stack.Screen
             name={ScreenNames.ArtworkDetail}
             component={ArtworkDetail}
-            // options={{ presentation: "modal", headerShown: false }}
+            options={{ headerTitle: i18n.t("ARTWORK_DETAIL") }}
           />
         </Stack.Group>
         

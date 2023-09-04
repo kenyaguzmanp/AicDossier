@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ScreenNames } from "../screens/ScreenNames";
 import Artworks from "../screens/Artworks/Artworks";
 import ArtworkDetail from "../screens/ArtworkDetail/ArtworkDetail";
+import i18n from "../i18n/locales";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,11 +22,12 @@ const ArtworksStack = () => {
           <Stack.Screen
             name={ScreenNames.Artworks}
             component={Artworks}
+            options={{ headerTitle: i18n.t("EXPLORE") }}
           />
           <Stack.Screen
             name={ScreenNames.ArtworkDetail}
             component={ArtworkDetail}
-            // options={{ presentation: "modal", headerShown: false }}
+            options={{ headerTitle: i18n.t("ARTWORK_DETAIL") }}
           />
         </Stack.Group>
         
