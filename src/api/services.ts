@@ -1,6 +1,6 @@
 import { apiGet } from ".";
 import { RetrieveArtworksApiResponse } from "../interfaces";
-import { setArtworks } from "../store/slices/artworksSlice";
+import { selectedArtwork, setArtworks } from "../store/slices/artworksSlice";
 import { store } from "../store/store";
 import endpoints from "./endpoints";
 import { callWrappedServiceDebounced } from "./enhancedServices";
@@ -11,11 +11,9 @@ const retrieveArtworks = (serviceParams: RetrieveArtworksEndpointParams) =>
     endpoint: endpoints.retrieveArtworks(serviceParams),
   });
 
-
-const retrieveArtworkImage = ({ iiifUrl, imageId, size, format, extension }) =>
+const retrieveArtworkDetail = ({ artworkId }: { artworkId: string }) =>
   apiGet({
-    baseUrl: iiifUrl,
-    endpoint: endpoints.retrieveArtworkImage({ iiifUrl, imageId, size, format, extension }),
+    endpoint: endpoints.retrieveArtworkDetail({ artworkId }),
   });
 
 export const enhancedFetchArtworks = ({
@@ -35,7 +33,7 @@ export const enhancedFetchArtworks = ({
             dispatch(setArtworks(data));
         },
         onError: (error) => {
-            console.log("🚀 ~ file: services.ts:25 ~ error:", error)
+            console.log("🚀 ~ file: services.ts:42 ~ error:", error)
         },
         setLoadingState,
     });
@@ -48,15 +46,16 @@ export const enhancedFetchArtworkDetail = ({
     onError,
     setLoadingState,
 }) => {
+    const dispatch = store.dispatch;
     return callWrappedServiceDebounced({
-        service: () => retrieveArtworkImage(serviceParams),
+        service: () => retrieveArtworkDetail(serviceParams),
         serviceParams,
         onPreRequest,
         onSuccess: (data) => {
-            console.log("🚀 ~ file: services.ts:22 ~ data:", data)
+            dispatch(selectedArtwork(data.data));
         },
         onError: (error) => {
-            console.log("🚀 ~ file: services.ts:25 ~ error:", error)
+            console.log("🚀 ~ file: services.ts:65 ~ error:", error)
         },
         setLoadingState,
     });
