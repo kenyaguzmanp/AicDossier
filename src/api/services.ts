@@ -4,10 +4,11 @@ import { setArtworks } from "../store/slices/artworksSlice";
 import { store } from "../store/store";
 import endpoints from "./endpoints";
 import { callWrappedServiceDebounced } from "./enhancedServices";
+import { RetrieveArtworksEndpointParams } from "./interfaces";
 
-const retrieveArtworks = () =>
+const retrieveArtworks = (serviceParams: RetrieveArtworksEndpointParams) =>
   apiGet({
-    endpoint: endpoints.retrieveArtworks({}),
+    endpoint: endpoints.retrieveArtworks(serviceParams),
   });
 
 
@@ -27,7 +28,7 @@ export const enhancedFetchArtworks = ({
     const dispatch = store.dispatch;
 
     return callWrappedServiceDebounced({
-        service: () => retrieveArtworks(),
+        service: () => retrieveArtworks(serviceParams),
         serviceParams,
         onPreRequest,
         onSuccess: (data: RetrieveArtworksApiResponse) => {
