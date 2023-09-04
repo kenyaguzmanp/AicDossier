@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
-import { Image, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedArtwork } from "../../store/selectors/artworksSelectors";
-import { selectedArtwork } from "../../store/slices/artworksSlice";
 import { getFullImageUrl } from "../../utils/artworkDetails";
 import ImageModal from "react-native-image-modal";
+import Chips from "../../components/Chips/Chips";
+import { selectedArtwork } from "../../store/slices/artworksSlice";
+import ArtworkDescription from "../../components/ArtworkDescription/ArtworkDescription";
+
+const WIDTH = Dimensions.get("window").width;
 
 const ArtworkDetail = () => {
   const currentArtwork = useSelector(getSelectedArtwork);
+  const [isFullImageLoaded, setIsFullImageLoaded] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,34 +22,43 @@ const ArtworkDetail = () => {
   }, [])
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "pink" }}>
-      <Text>ArtworkDetail Screen PAGE</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
-        <Text>{currentArtwork.title}</Text>
-        <Text>{currentArtwork.artist_title}</Text>
         {currentArtwork?.thumbnail && (
-          <>
+          <View style={{ position: isFullImageLoaded ? "absolute" : "relative", width: '100%', left: 0 }}>
             <Image
-              style={{ flex: 1}}
+              style={{
+                width: WIDTH,
+                height: WIDTH,
+              }}
               source={{
                 uri: currentArtwork.thumbnail.lqip,
               }}
             />
-          </>
+          </View>
         )}
         <ImageModal
           resizeMode="contain"
           imageBackgroundColor="#000000"
           style={{
-            width: 250, // TODO: Check
-            height: 250, // TODO: Check
+            width: isFullImageLoaded ? WIDTH : 0,
+            height: WIDTH,
           }}
           source={{
             uri: getFullImageUrl(currentArtwork.image_id),
           }}
+          onLoadStart={() => setIsFullImageLoaded(false)}
+          onLoadEnd={() => {
+            setIsFullImageLoaded(true)
+            // setTimeout(() => {
+            //   setIsFullImageLoaded(true)
+            // }, 5000);
+          }}
         />
       </View>
-    </View>
+      <ArtworkDescription artwork={currentArtwork} />
+      {currentArtwork.category_titles && <Chips items={currentArtwork.category_titles} />}
+    </ScrollView>
   );
 }
 
