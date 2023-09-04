@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Card, Text } from 'react-native-paper';
 import { getThumbnailImageUrl } from '../../utils/artworkDetails';
 import { TouchableOpacity } from 'react-native';
