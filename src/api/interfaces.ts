@@ -25,6 +25,7 @@ export interface WrappedFunctionWithLoadingServiceParams {
 export type RetrieveArtworksEndpointParams = {
     page?: number;
     limit?: number;
+    fakeService?: boolean;
 }
 
 export type RetrieveArtworkImageEndpointParams = { 

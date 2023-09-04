@@ -5,12 +5,16 @@ export type ArtworksSlice = {
   artworks: Artwork[];
   favorites:  Artwork[];
   selectedArtwork: Artwork[] | null;
+  isLoadingArtworkDetail: boolean | null;
+  hasErrorArtworkDetail: boolean | null;
 }
 
 const initialState: ArtworksSlice = {
     artworks: [],
     favorites: [],
     selectedArtwork: null,
+    isLoadingArtworkDetail: null,
+    hasErrorArtworkDetail: null,
 };
 
 const artworksSlice = createSlice({
@@ -28,6 +32,15 @@ const artworksSlice = createSlice({
     },
     selectedArtwork(state, action) {
       state.selectedArtwork = {...action.payload};
+      state.isLoadingArtworkDetail = false;
+      state.hasErrorArtworkDetail = false;
+    },
+    setIsLoadingArtworkDetail(state, action) {
+      state.isLoadingArtworkDetail = action.payload;
+    },
+    setHasErrorArtworkDetail(state, action) {
+      state.isLoadingArtworkDetail = false;
+      state.hasErrorArtworkDetail = action.payload;
     },
     addArtworkToFavorites(state, action) {
       state.favorites.push(action.payload);
@@ -44,6 +57,6 @@ const artworksSlice = createSlice({
 })
 
 
-export const { setArtworks, selectedArtwork, addArtworkToFavorites, removeArtworkToFavorites, cleanArtworks, setInitialState } = artworksSlice.actions
+export const { setArtworks, selectedArtwork, addArtworkToFavorites, removeArtworkToFavorites, cleanArtworks, setInitialState, setIsLoadingArtworkDetail, setHasErrorArtworkDetail } = artworksSlice.actions
 
 export default artworksSlice.reducer

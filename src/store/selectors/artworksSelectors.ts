@@ -15,3 +15,7 @@ export const getIsFavoriteArtwork = (artworkId) =>
     }
     return false;
   });
+
+export const getIsLoadingArtworkDetail = (state) => state?.artworks?.isLoadingArtworkDetail;
+
+export const getHasErrorArtworkDetail = (state) => state?.artworks?.hasErrorArtworkDetail;
