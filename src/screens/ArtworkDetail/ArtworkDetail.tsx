@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSelectedArtwork } from "../../store/selectors/artworksSelectors";
 import { selectedArtwork } from "../../store/slices/artworksSlice";
 import { getFullImageUrl } from "../../utils/artworkDetails";
+import ImageModal from "react-native-image-modal";
 
 const ArtworkDetail = () => {
   const currentArtwork = useSelector(getSelectedArtwork);
@@ -29,14 +30,19 @@ const ArtworkDetail = () => {
                 uri: currentArtwork.thumbnail.lqip,
               }}
             />
-            <Image
-              style={{ flex: 1 }}
-              source={{
-                uri: getFullImageUrl(currentArtwork.image_id)
-              }}
-            />
           </>
         )}
+        <ImageModal
+          resizeMode="contain"
+          imageBackgroundColor="#000000"
+          style={{
+            width: 250, // TODO: Check
+            height: 250, // TODO: Check
+          }}
+          source={{
+            uri: getFullImageUrl(currentArtwork.image_id),
+          }}
+        />
       </View>
     </View>
   );
