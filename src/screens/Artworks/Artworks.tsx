@@ -7,8 +7,7 @@ import { getArtworks } from "../../store/selectors/artworksSelectors";
 const Artworks = () => {
   const artworks = useSelector(getArtworks);
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <Text>Artworks Screen PAGE</Text>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <ArtworksList data={artworks} />
     </View>
   );

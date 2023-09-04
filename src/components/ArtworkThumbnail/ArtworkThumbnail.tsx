@@ -1,37 +1,13 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { ScreenNames } from '../../screens/ScreenNames';
-import FireIcon from '../FireIcon/FireIcon';
-import { useDispatch, useSelector } from 'react-redux';
-import { addArtworkToFavorites, removeArtworkToFavorites } from '../../store/slices/artworksSlice';
-import { getIsFavoriteArtwork } from '../../store/selectors/artworksSelectors';
 import { Artwork } from '../../interfaces';
 import { enhancedFetchArtworkDetail } from '../../api/services';
-import { getThumbnailImageUrl } from '../../utils/artworkDetails';
-
+import ArtworkCard from '../ArtworkCard/ArtworkCard';
 
 const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
   const navigation = useNavigation();
-  const isFavorite = useSelector(getIsFavoriteArtwork(artwork.id));
-
-  const dispatch = useDispatch();
-
-  const handleOnPressFavorite = () => {
-    if (isFavorite) {
-      dispatch(removeArtworkToFavorites(artwork))
-    } else {
-      dispatch(addArtworkToFavorites(artwork))
-    }
-  }
-
-  const renderFavoriteIcon = () => {
-    return (
-      <TouchableOpacity onPress={handleOnPressFavorite} style={{ backgroundColor: 'yellow' }}>
-        <FireIcon isSelected={isFavorite} />
-      </TouchableOpacity>
-    )
-  }
 
   const onPressArtwork = () => {
     enhancedFetchArtworkDetail({
@@ -44,28 +20,8 @@ const ArtworkThumbnail = ({ artwork }: { artwork: Artwork }): JSX.Element => {
 
   return (
     <View>
-      {renderFavoriteIcon()}
-      <TouchableOpacity onPress={onPressArtwork} style={{ marginVertical: 5, backgroundColor: 'gray' }}>
-        <View style={{ flex: 1 }}>
-          <Text>{artwork.title}</Text>
-          <Text>{artwork.artist_title}</Text>
-          {artwork?.thumbnail && (
-            <>
-              <Image
-                style={{ width: 66, height: 58 }}
-                source={{
-                  uri: artwork.thumbnail.lqip,
-                }}
-              />
-              <Image
-                style={{ width: 66, height: 58 }}
-                source={{
-                  uri: getThumbnailImageUrl(artwork.image_id)
-                }}
-              />
-            </>
-          )}
-        </View>
+      <TouchableOpacity onPress={onPressArtwork} style={{ marginVertical: 10 }}>
+        <ArtworkCard artwork={artwork} />
       </TouchableOpacity>
     </View>
   )

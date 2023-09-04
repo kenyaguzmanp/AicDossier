@@ -78,6 +78,7 @@ const ArtworksList = ({ data, shouldHandleOnEnd = true }): JSX.Element => {
     <View style={{ flex: 1 }}>
       <FlatList 
         data={data}
+        style={{ paddingHorizontal: 20 }}
         renderItem={renderItem}
         onEndReached={shouldHandleOnEnd ? onEndReached : noop}
         onEndReachedThreshold={0.1}
