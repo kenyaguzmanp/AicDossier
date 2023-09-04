@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { enhancedFetchArtworks } from "../../api/services";
-import { useDispatch } from "react-redux";
 import AicIcon from "../../components/AicIcon/AicIcon";
 import { WIDTH } from "../../theme";
 import { Divider, Text } from "react-native-paper";
@@ -14,8 +13,7 @@ import ChevronRight from "../../components/ChevronRight/ChevronRight";
 import i18n from "../../i18n/locales";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -67,30 +65,36 @@ const Home = () => {
 
   return (
     <ScrollView>
-      <AicIcon isSelected={isLoading} width={WIDTH} height={500} />
-      <Text variant="displayLarge">{i18n.t("WELLCOME")}</Text>
-      <Text variant="displaySmall">{i18n.t("THE_COLLECTION")}</Text>
-      <Text variant="bodyLarge">{i18n.t("HOME_DESCRIPTION")}</Text>
-      <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => navigation.navigate(ScreenNames.Artworks)}>
-        <Text variant="titleLarge">{i18n.t("HOME_LINK_1")}</Text>
-        <View style={{ paddingHorizontal: 20 }}>
-          <ChevronRight />
+      <AicIcon isSelected={!isLoading} width={WIDTH} height={500} />
+      <View style={{ padding: 20 }}>
+        <Text variant="displayLarge">{i18n.t("WELLCOME")}</Text>
+        <Text style={style.space} variant="displaySmall">{i18n.t("THE_COLLECTION")}</Text>
+        <Text style={style.space} variant="bodyLarge">{i18n.t("HOME_DESCRIPTION")}</Text>
+        <TouchableOpacity style={style.linkContainer} onPress={() => navigation.navigate(ScreenNames.Artworks)}>
+          <Text variant="titleLarge">{i18n.t("HOME_LINK_1")}</Text>
+          <View style={{ paddingHorizontal: 20 }}>
+            <ChevronRight />
+          </View>
+        </TouchableOpacity>
+        <Divider />
+        <TouchableOpacity style={style.linkContainer} onPress={() => navigation.navigate(ScreenNames.FavoritesArtworks)}>
+          <Text variant="titleLarge">{i18n.t("HOME_LINK_2")}</Text>
+          <View style={{ paddingHorizontal: 20 }}>
+            <ChevronRight />
+          </View>
+        </TouchableOpacity>
+        <Text style={style.space} variant="displaySmall">{i18n.t("HOME_TITLE_2")}</Text>
+        <Table data={tableData}/>
+        <Text style={style.space} variant="displaySmall">{i18n.t("HOME_TITLE_3")}</Text>
+        <View style={style.space}>
+          <Text variant="titleSmall">{i18n.t("HOME_LOCATION_TEXT_1")}</Text>
+          <Text variant="bodySmall">{i18n.t("HOME_LOCATION_TEXT_2")}</Text>
         </View>
-      </TouchableOpacity>
-      <Divider />
-      <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => navigation.navigate(ScreenNames.FavoritesArtworks)}>
-        <Text variant="titleLarge">{i18n.t("HOME_LINK_2")}</Text>
-        <View style={{ paddingHorizontal: 20 }}>
-          <ChevronRight />
+        <View style={style.space}>
+          <Text variant="titleSmall">{i18n.t("HOME_LOCATION_TEXT_3")}</Text>
+          <Text variant="bodySmall">{i18n.t("HOME_LOCATION_TEXT_4")}</Text>
         </View>
-      </TouchableOpacity>
-      <Text variant="displaySmall">{i18n.t("HOME_TITLE_2")}</Text>
-      <Table data={tableData}/>
-      <Text variant="displaySmall">{i18n.t("HOME_TITLE_3")}</Text>
-      <Text variant="titleSmall">{i18n.t("HOME_LOCATION_TEXT_1")}</Text>
-      <Text variant="bodySmall">{i18n.t("HOME_LOCATION_TEXT_2")}</Text>
-      <Text variant="titleSmall">{i18n.t("HOME_LOCATION_TEXT_3")}</Text>
-      <Text variant="bodySmall">{i18n.t("HOME_LOCATION_TEXT_4")}</Text>
+      </View>
       <Image style={{ width: WIDTH, height: 300 }} source={Images.AIC_LION} />
 
       {/* <Text
@@ -109,5 +113,16 @@ const Home = () => {
     </ScrollView>
   );
 }
+
+const style = StyleSheet.create({
+  space: {
+    paddingVertical: 10
+  },
+  linkContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10
+  }
+});
 
 export default Home;
