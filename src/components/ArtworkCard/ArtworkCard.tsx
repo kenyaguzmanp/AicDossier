@@ -24,7 +24,7 @@ const ArtworkCard = ({ artwork  }) => {
 
   const renderFavoriteIcon = () => {
     return (
-      <TouchableOpacity onPress={handleOnPressFavorite}>
+      <TouchableOpacity onPress={handleOnPressFavorite} style={{ paddingRight: 10 }}>
         <StarIcon isSelected={isFavorite} />
       </TouchableOpacity>
     )
