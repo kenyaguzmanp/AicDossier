@@ -4,7 +4,7 @@ import { Chip } from 'react-native-paper';
 
 const Chips = ({ items }) => {
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 50 }}>
       {items.map(item => <Chip style={{ margin: 10 }} compact onPress={() => console.log('Pressed')}>{item}</Chip>)}
     </View>
   );
