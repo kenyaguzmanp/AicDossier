@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, Text } from 'react-native-paper';
 import { getThumbnailImageUrl } from '../../utils/artworkDetails';
 import { TouchableOpacity } from 'react-native';
-import FavoriteIcon from '../FavoriteIcon/FavoriteIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsFavoriteArtwork } from '../../store/selectors/artworksSelectors';
 import { addArtworkToFavorites, removeArtworkToFavorites } from '../../store/slices/artworksSlice';
+import StarIcon from '../StarIcon/StarIcon';
 
 
 const ArtworkCard = ({ artwork  }) => {
@@ -25,7 +25,7 @@ const ArtworkCard = ({ artwork  }) => {
   const renderFavoriteIcon = () => {
     return (
       <TouchableOpacity onPress={handleOnPressFavorite}>
-        <FavoriteIcon isSelected={isFavorite} />
+        <StarIcon isSelected={isFavorite} />
       </TouchableOpacity>
     )
   }

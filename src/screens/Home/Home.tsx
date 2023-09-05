@@ -9,7 +9,6 @@ import Images from "../../static/images/images";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../ScreenNames";
 import ChevronRight from "../../components/ChevronRight/ChevronRight";
-// import { cleanArtworks } from "../../store/slices/artworksSlice";
 import i18n from "../../i18n/locales";
 
 const Home = () => {
@@ -96,19 +95,6 @@ const Home = () => {
         </View>
       </View>
       <Image style={{ width: WIDTH, height: 300 }} source={Images.AIC_LION} />
-
-      {/* <Text
-        onPress={() => {
-          enhancedFetchArtworks({
-            serviceParams: {
-              page: 1
-            }
-          });
-        }}
-      >
-        fetch artworks
-      </Text>
-      <Text onPress={() => dispatch(cleanArtworks())}>Clean Artworks</Text> */}
 
     </ScrollView>
   );
